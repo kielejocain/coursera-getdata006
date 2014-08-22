@@ -25,6 +25,7 @@ data <- data[,sort(c(grep("mean()",names(data)),grep("std()", names(data))))]
 act_train <- read.table("train/y_train.txt")
 act_test <- read.table("test/y_test.txt")
 act <- rbind(act_train, act_test)
+act_names <- read.table("activity_labels.txt")
 data$Activity <- factor(act$Activity, labels = act_names[,2])
 
 ## STEP 4
@@ -47,3 +48,4 @@ tidy_data <- aggregate(data[, 1:79], by = list(data$Activity, data$Subject),
 ## Finally, we give the factors their original names.
 names(tidy_data)[1] <- c("Activity")
 names(tidy_data)[2] <- c("Subject")
+write.table(tidy_data, file = "tidy_data.txt", row.names = FALSE)
